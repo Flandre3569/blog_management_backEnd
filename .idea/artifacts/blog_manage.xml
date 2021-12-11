@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="blog_manage">
+    <output-path>$PROJECT_DIR$/out/artifacts/blog_manage</output-path>
+    <root id="root" />
+  </artifact>
+</component>

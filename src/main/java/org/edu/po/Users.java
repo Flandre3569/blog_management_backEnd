@@ -1,13 +1,22 @@
-package org.edu.bean;
+package org.edu.po;
 
-public class Manager {
+public class Users {
+    private int id;
     private String name;
     private String password;
 
-    public Manager() {}
-    public Manager(String name, String password) {
+    public Users(int id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
