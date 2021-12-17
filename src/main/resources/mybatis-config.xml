@@ -41,4 +41,27 @@
         <package name="org.edu" />
     </mappers>
 
+    <!-- step1: 配置数据库连接信息 -->
+
+
+    <!-- step2: 指定java bean生成的位置
+        targetProject 指的是 哪个项目
+        targetPackage 指的是 项目中的路径
+    -->
+    <javaModelGenerator targetPackage="org.edu.po" targetProject=".\src">
+        <property name="enableSubPackages" value="true"/>
+        <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+
+    <!-- step3：指定sql映射文件生成的位置 -->
+    <sqlMapGenerator targetPackage="org.edu.mapper" targetProject=".\src">
+        <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+
+    <!-- step4: 指定接口生成的位置 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="org.edu.dao" targetProject=".\src">
+        <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
+    
+
 </configuration>

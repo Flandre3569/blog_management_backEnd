@@ -3,6 +3,7 @@ package org.edu.controller;
 import org.edu.dao.UserDao;
 import org.edu.po.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
+    @Qualifier("userDao")
     @Autowired
     private UserDao userDao;
 
@@ -19,7 +21,7 @@ public class UserController {
     public String selectAll(Model model) {
         List<Users> list = userDao.selectUsersAll();
         model.addAttribute("usersList",list);
-//        System.out.println(list.get(1));
+        System.out.println(list.get(1));
         return "usersList";
     }
 }

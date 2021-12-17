@@ -1,60 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
-            http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-            http://www.springframework.org/schema/aop
-            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-            http://www.springframework.org/schema/tx
-            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-            http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd">
-    <!--配置数据源 -->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:db.properties</value>
-            </list>
-        </property>
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <!-- step1: 配置包扫描方式。扫描所有包，但是排除Controller层 -->
+    <context:component-scan base-package="org.edu">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- step2: 配置数据库连接信息 -->
+    <!-- 引入properties文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <bean id="dataSource" class="${dataSource}">
+        <!--注入属性-->
+        <property name="driverClassName" value="${driver}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="maxIdle" value="${maxIdle}"></property>
+        <property name="maxTotal" value="${maxTotal}"></property>
+        <property name="initialSize" value="${initialSize}"></property>
     </bean>
 
-    <bean id="dataSource" class="${dataSource}"
-          destroy-method="close" scope="singleton">
-
-        <property name="driverClassName" value="${driver}" />
-        <property name="url"
-                  value="${url}" />
-        <property name="username" value="${username}" />
-        <property name="password" value="${password}" />
-        <property name="maxTotal" value="${maxTotal}" />
-        <property name="maxIdle" value="${maxIdle}" />
-        <property name="initialSize" value="${initialSize}" />
-    </bean>
-    <!-- 添加事务支持 -->
-    <bean id="txManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-    <!-- 开启事务注解 -->
-    <tx:annotation-driven transaction-manager="txManager" />
-    <!-- 配置mybitas工厂，同时指定数据源，并与MyBatis完美整合 -->
+    <!-- step3: spring 与 mybatis 整合 -->
+    <!-- 配置sqlSessionFactory，需要引入 mybatis-spring 包 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <!-- configLocation的属性值为Mybatis的核心配置文件 -->
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <!-- 加载Mybatis全局配置文件 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!-- 数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!-- 配置mapper文件位置，扫描映射文件 -->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
     </bean>
-    <!-- Mapper代理开发，使用Spring自动扫描Mybatis的接口并装配 -->
+
+    <!-- step4: 配置批量执行的sqlSession(可选操作) -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="executorType" value="BATCH"/>
+    </bean>
+
+    <!-- step5: 配置mapper扫描器，将其加入到ioc容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- mybatis-spring组件的扫描器 -->
-        <property name="basePackage" value="org.edu.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <!-- 扫描包路径，如果需要扫描多个包中间用半角逗号隔开 -->
+        <property name="basePackage" value="org.edu.dao"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
-    <!-- 指定需要扫描的包（包括子包），使注解生效。dao包在mybatis-spring组件中已经扫描，这里不在需要扫描 -->
-    <context:component-scan base-package="org.edu.service" />
+
+    <!-- step6: 配置事务控制 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 配置数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置事务通知 -->
+<!--    <tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+<!--        <tx:attributes>-->
+<!--            &lt;!&ndash; 传播行为 &ndash;&gt;-->
+<!--            <tx:method name="post*" propagation="REQUIRED"/>-->
+<!--            <tx:method name="put*" propagation="REQUIRED"/>-->
+<!--            <tx:method name="delete*" propagation="REQUIRED"/>-->
+<!--            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
+
+    <!-- 配置aop -->
+<!--    <aop:config>-->
+<!--        &lt;!&ndash; 配置事务增强，指定切点表达式，第一个*表示返回任意类型，第二个*表示任意方法，（..）表示任意数量和类型的参数&ndash;&gt;-->
+<!--        <aop:advisor advice-ref="txAdvice" pointcut="execution(* org.edu.service..*(..))"/>-->
+<!--    </aop:config>-->
 </beans>
