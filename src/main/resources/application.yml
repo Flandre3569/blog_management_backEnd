@@ -1,0 +1,17 @@
+spring:
+  freemarker:
+    suffix: .ftl
+  datasource:
+    url: jdbc:mysql://localhost:3306/db2019210745?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    # 打印查询的sql语句并进行格式化
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 9000
