@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -22,7 +21,7 @@ public class UsersHandler {
        return usersRepository.findAll(pageable);
     }
 
-    @PostMapping("/users/add")
+    @PostMapping("/addUser")
     public String addUser(@RequestBody Users user) {
         Users result = usersRepository.save(user);
         if(result != null) {
@@ -30,5 +29,24 @@ public class UsersHandler {
         } else {
             return "false";
         }
+    }
+    @GetMapping("/select/{id}")
+    public Optional<Users> find(@PathVariable("id") Integer id) {
+        return usersRepository.findById(id);
+    }
+
+    @PatchMapping("/update")
+    public String updateUser(@RequestBody Users user) {
+        Users result = usersRepository.save(user);
+        if(result != null) {
+            return "success";
+        } else {
+            return "false";
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void updateUser(@PathVariable("id") Integer id) {
+        usersRepository.deleteById(id);
     }
 }
