@@ -3,6 +3,7 @@ package com.example.bms.controller;
 import com.example.bms.entity.*;
 import com.example.bms.mapper.AddMapper;
 import com.example.bms.mapper.BlogMapper;
+import com.example.bms.mapper.CheckMapper;
 import com.example.bms.repository.BlogRepository;
 import com.example.bms.repository.LabelRepository;
 import com.example.bms.repository.UsersRepository;
@@ -27,6 +28,8 @@ public class BlogHandler {
     private LabelRepository labelRepository;
     @Autowired
     private AddMapper addMapper;
+    @Autowired
+    private CheckMapper checkMapper;
 //    jpa分页查询全部
 //    @GetMapping("/selectAll/{page}/{size}")
 //    public Page<Blog> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
@@ -87,8 +90,11 @@ public class BlogHandler {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/checkAccess")
     public String addBlog(@RequestBody Blog_Check blog) {
+//        把这条实体在check里删除掉
+        int m = checkMapper.deleteCheck(blog.getId());
+//        把实体在blog里添加上
         Blog_Add blog_add = new Blog_Add();
         List<Users> users = usersRepository.findAll();
         blog_add.setContent(blog.getContent());
@@ -106,7 +112,7 @@ public class BlogHandler {
         }
 
         int i = addMapper.addBlog(blog_add);
-        if(i!=0){
+        if(i!=0&&m!=0){
             return "success";
         }else{
             return "failure";

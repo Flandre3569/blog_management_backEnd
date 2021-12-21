@@ -15,14 +15,15 @@ public class LoginHandler {
     private ManagerRepository managerRepository;
 
     @PostMapping("/manage")
-    public String addUser(@RequestBody Manager manager) {
+    public Manager addUser(@RequestBody Manager manager) {
         List<Manager> manageList = managerRepository.findAll();
+        Manager manager1 = new Manager();
         for (Manager ma: manageList) {
             if(ma.getName().equals(manager.getName()) && ma.getPassword().equals(manager.getPassword())) {
-                return "success";
+                manager1 = ma;
             }
         }
-        return "failure";
+        return manager1;
     }
 
 }
