@@ -1,5 +1,6 @@
 package com.example.bms.controller;
 
+import com.example.bms.aop.LogAnnotation;
 import com.example.bms.entity.*;
 import com.example.bms.mapper.AddMapper;
 import com.example.bms.mapper.BlogMapper;
@@ -38,6 +39,8 @@ public class BlogHandler {
 //    }
 
     @GetMapping("/selectBlog/{page}/{size}")
+//    对此接口进行记录日志
+    @LogAnnotation(module="博客",operator="获取博客列表")
     public PageInfo<Blog_Check> queryAll(@PathVariable("page") Integer page,@PathVariable("size") Integer size) {
         PageHelper.startPage(page,size);
         List<Blog_Check> blog_checks = blogMapper.findAll();

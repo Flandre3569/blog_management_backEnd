@@ -1,5 +1,6 @@
 package com.example.bms.controller;
 
+import com.example.bms.aop.LogAnnotation;
 import com.example.bms.entity.Manager;
 import com.example.bms.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class LoginHandler {
     private ManagerRepository managerRepository;
 
     @PostMapping("/manage")
+    @LogAnnotation(module="登录",operator="进行登录验证")
     public Manager addUser(@RequestBody Manager manager) {
         List<Manager> manageList = managerRepository.findAll();
         Manager manager1 = new Manager();
