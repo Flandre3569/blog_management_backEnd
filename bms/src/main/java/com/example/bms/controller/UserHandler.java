@@ -22,4 +22,8 @@ public class UserHandler {
         return userMapper.findAllUser();
     }
 
+    @GetMapping("/countUser")
+    public Integer countUser() {
+        return userMapper.countUser();
+    }
 }

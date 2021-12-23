@@ -15,4 +15,7 @@ public interface CheckMapper {
 
     @Delete("delete from `check` where id = #{id}")
     Integer deleteCheck(@Param("id") int id);
+
+    @Select("Select count(*) from `check`")
+    Integer countCheck();
 }

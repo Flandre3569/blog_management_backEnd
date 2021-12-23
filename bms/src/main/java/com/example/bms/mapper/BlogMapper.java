@@ -3,6 +3,7 @@ package com.example.bms.mapper;
 import com.example.bms.entity.Blog;
 import com.example.bms.entity.Blog_Check;
 import com.example.bms.entity.Check;
+import com.example.bms.entity.Classify;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -20,6 +21,11 @@ public interface BlogMapper {
     @Delete("delete from `blog` where id = #{id}")
     Integer deleteBlog(@Param("id") int id);
 
+    @Select("Select count(*) from `blog`")
+    Integer countBlog();
+
 //    @Select("select * from `blog`")
 //    List<Blog_Check> find();
+    @Select("select count(*) value,la.name name from `blog` bl LEFT JOIN `label` la ON bl.label_id = la.id group by label_id")
+    List<Classify> classifyBlog();
 }

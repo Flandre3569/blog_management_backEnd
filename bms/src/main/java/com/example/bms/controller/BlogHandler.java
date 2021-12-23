@@ -93,6 +93,7 @@ public class BlogHandler {
         }
     }
 
+//    审核通过
     @PostMapping("/checkAccess")
     public String addBlog(@RequestBody Blog_Check blog) {
 //        把这条实体在check里删除掉
@@ -120,5 +121,17 @@ public class BlogHandler {
         }else{
             return "failure";
         }
+    }
+
+//    统计博客数量
+    @GetMapping("/countBlog")
+    public Integer countBlog(){
+        return blogMapper.countBlog();
+    }
+
+//    博客分类
+    @GetMapping("/classify")
+    public List<Classify> classify() {
+        return blogMapper.classifyBlog();
     }
 }

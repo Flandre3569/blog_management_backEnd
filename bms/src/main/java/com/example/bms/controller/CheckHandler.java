@@ -36,4 +36,9 @@ public class CheckHandler {
             return "failure";
         }
     }
+
+    @GetMapping("/countCheck")
+    public Integer countCheck() {
+        return checkMapper.countCheck();
+    }
 }

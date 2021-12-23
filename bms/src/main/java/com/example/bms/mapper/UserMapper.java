@@ -13,4 +13,7 @@ import java.util.List;
 public interface UserMapper {
     @Select("Select * from users")
     List<User> findAllUser();
+
+    @Select("Select count(*) from users")
+    Integer countUser();
 }

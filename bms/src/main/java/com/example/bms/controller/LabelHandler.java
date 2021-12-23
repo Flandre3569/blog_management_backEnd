@@ -3,8 +3,10 @@ package com.example.bms.controller;
 
 import com.example.bms.aop.LogAnnotation;
 import com.example.bms.entity.Label;
+import com.example.bms.mapper.LabelMapper;
 import com.example.bms.repository.LabelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class LabelHandler {
     @Autowired
     private LabelRepository labelRepository;
+    @Autowired
+    private LabelMapper labelMapper;
     @GetMapping("/selectAll")
     @LogAnnotation(module="标签",operator="获取所有标签")
     public List<Label> findAll() {
@@ -34,7 +38,7 @@ public class LabelHandler {
     }
 
     @PatchMapping("/update")
-    @LogAnnotation(module="更新",operator="更新标签")
+    @LogAnnotation(module="标签",operator="更新标签")
     public String updateLabel(@RequestBody Label label) {
         Label result = labelRepository.save(label);
         if(result != null) {
@@ -45,8 +49,14 @@ public class LabelHandler {
     }
 
     @DeleteMapping("/delete/{id}")
-    @LogAnnotation(module="博客",operator="获取博客列表")
+    @LogAnnotation(module="标签",operator="删除标签")
     public void delete(@PathVariable("id") Integer id) {
         labelRepository.deleteById(id);
     }
+
+    @GetMapping("/countLabel")
+    public Integer countLabel() {
+        return labelMapper.countLabel();
+    }
+
 }
