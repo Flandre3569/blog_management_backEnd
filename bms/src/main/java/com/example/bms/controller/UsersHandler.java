@@ -45,6 +45,8 @@ public class UsersHandler {
     @PatchMapping("/update")
     @LogAnnotation(module="用户",operator="更新用户")
     public String updateUser(@RequestBody Users user) {
+        String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+        user.setPassword(md5Password);
         Users result = usersRepository.save(user);
         if(result != null) {
             return "success";

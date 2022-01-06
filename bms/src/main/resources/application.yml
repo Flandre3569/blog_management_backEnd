@@ -13,7 +13,22 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    default-encoding: UTF-8
+    host: smtp.163.com
+    password: FWRTWYWSWPKILHLD
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    username: cyx19860918870@163.com
 server:
   port: 9000
+
+
 
 

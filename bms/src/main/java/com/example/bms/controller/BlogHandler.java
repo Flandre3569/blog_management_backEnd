@@ -48,16 +48,33 @@ public class BlogHandler {
         return pageInfo;
     }
 
-//    jpa添加方法
+//    blog添加
     @PostMapping("/addBlog")
-    public String add(@RequestBody Blog blog) {
-        Blog result = blogRepository.save(blog);
-        if(result != null) {
-            return "success";
-        } else {
-            return "false";
+    public String add(@RequestBody Blog_Check blog) {
+//        把实体在blog里添加上
+    Blog_Add blog_add = new Blog_Add();
+    List<Users> users = usersRepository.findAll();
+    blog_add.setContent(blog.getContent());
+    blog_add.setName(blog.getName());
+    for(Users users1:users) {
+        if(users1.getName().equals(blog.getAuthor())){
+            blog_add.setAuthor_id(users1.getId());
         }
     }
+    List<Label> labels = labelRepository.findAll();
+    for(Label label:labels) {
+        if(label.getName().equals(blog.getLabel())){
+            blog_add.setLabel_id(label.getId());
+        }
+    }
+
+    int i = addMapper.addCheck(blog_add);
+    if(i!=0){
+        return "success";
+    }else{
+        return "failure";
+    }
+}
 
 //    jpa查询方法
     @GetMapping("/select/{id}")

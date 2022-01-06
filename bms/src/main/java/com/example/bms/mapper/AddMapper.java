@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AddMapper {
     @Insert("insert into blog(name,content,author_id,label_id) values(#{name},#{content},#{author_id},#{label_id})")
     Integer addBlog(Blog_Add blog_add);
+    @Insert("insert into `check`(name,content,author_id,label_id) values(#{name},#{content},#{author_id},#{label_id})")
+    Integer addCheck(Blog_Add blog_add);
 }
