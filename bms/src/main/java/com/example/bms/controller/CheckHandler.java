@@ -1,14 +1,9 @@
 package com.example.bms.controller;
 
 import com.example.bms.aop.LogAnnotation;
-import com.example.bms.entity.Blog;
 import com.example.bms.entity.Check;
-import com.example.bms.entity.Label;
-import com.example.bms.entity.Users;
 import com.example.bms.mapper.CheckMapper;
-import com.example.bms.repository.BlogRepository;
-import com.example.bms.repository.LabelRepository;
-import com.example.bms.repository.UsersRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
