@@ -38,7 +38,6 @@
 
 ![image-20220107213202680](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213202680.png)
 
-![image-20220107213247034](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213230410.png)
 
 ![image-20220107213256810](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213247034.png)
 
