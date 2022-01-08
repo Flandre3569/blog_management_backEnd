@@ -38,7 +38,6 @@
 
 ![image-20220107213202680](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213202680.png)
 
-
 ![image-20220107213256810](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213247034.png)
 
 ![image-20220107213319525](http://mingxuan3569.oss-cn-beijing.aliyuncs.com/image/image-20220107213256810.png)
@@ -46,87 +45,75 @@
 ## 目录结构：
 
 ``` 
-│  App.vue
-│  main.js
-│
-├─assets
-│  ├─css
-│  │      global.less     
-│  │      index.less      
+├─main
+│  ├─java
+│  │  └─com
+│  │      └─example
+│  │          └─bms
+│  │              │  BmsApplication.java
+│  │              │
+│  │              ├─aop
+│  │              │      LogAnnotation.java
+│  │              │      LogAspect.java
+│  │              │
+│  │              ├─controller
+│  │              │      BlogHandler.java
+│  │              │      CheckHandler.java
+│  │              │      EmailHandler.java
+│  │              │      LabelHandler.java
+│  │              │      LoginHandler.java
+│  │              │      UserHandler.java
+│  │              │      UsersHandler.java
+│  │              │
+│  │              ├─entity
+│  │              │      Blog.java
+│  │              │      Blog_Add.java
+│  │              │      Blog_Check.java
+│  │              │      Check.java
+│  │              │      Classify.java
+│  │              │      Label.java
+│  │              │      Manager.java
+│  │              │      User.java
+│  │              │      Users.java
+│  │              │
+│  │              ├─mapper
+│  │              │      AddMapper.java
+│  │              │      BlogMapper.java
+│  │              │      CheckMapper.java
+│  │              │      EmailMapper.java
+│  │              │      LabelMapper.java
+│  │              │      UserMapper.java
+│  │              │
+│  │              ├─repository
+│  │              │      BlogRepository.java
+│  │              │      LabelRepository.java
+│  │              │      ManagerRepository.java
+│  │              │      UsersRepository.java
+│  │              │
+│  │              └─utils
+│  │                      HttpContextUtils.java
+│  │                      IpUtils.java
 │  │
-│  └─img
-│          logo.png       
-│
-├─components
-│  ├─animate
-│  │  │  index.js
-│  │  │
-│  │  └─src
-│  │          number.vue  
-│  │
-│  ├─card
-│  │  │  index.js
-│  │  │
-│  │  └─src
-│  │          card.vue
-│  │
-│  └─descriptions
-│      │  index.js
+│  └─resources
+│      │  application.yml
 │      │
-│      └─src
-│              index.vue
-│
-├─router
-│      index.js
-│
-├─service
-│  │  index.js
-│  │
-│  ├─login
-│  │      index.js
-│  │
-│  └─request
-│          config.js
-│          index.js
-│
-├─store
-│  │  index.js
-│  │
-│  └─login
-│          login.js
-│
-├─utils
-│      localCache.js
-│
-└─views
-    │  blog.vue
-    │  check.vue
-    │  dialog.vue
-    │  imitate.vue
-    │  label.vue
-    │  notFound.vue
-    │  overview.vue
-    │  technology.vue
-    │  users.vue
-    │
-    ├─login
-    │  │  login.vue
-    │  │
-    │  └─rules
-    │          accountRules.js
-    │
-    ├─main
-    │      main.vue
-    │      nav-menu.vue
-    │      user-info.vue
-    │
-    └─p-config
-            dependencies.js
-            dev-dependencies.js
-            index.js
-            overviewPie.js
-            project-dir.js
-            technology-stacks.js
+│      ├─static
+│      └─templates
+└─test
+    └─java
+        └─com
+            └─example
+                └─bms
+                    │  BmsApplicationTests.java
+                    │
+                    ├─mapper
+                    │      BlogMapperTest.java
+                    │      CheckMapperTest.java
+                    │
+                    └─repository
+                            BlogRepositoryTest.java
+                            ManagerRepositoryTest.java
+                            UsersRepositoryTest.java
 ```
 
 
