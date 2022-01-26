@@ -14,6 +14,8 @@ spring:
       hibernate:
         format_sql: true
   mail:
+#    填写自己邮箱相关配置，填写自己的邮箱
+#    关于配置的填写网上有较为详细的介绍
     default-encoding: UTF-8
     host: smtp.163.com
     password: FWRTWYWSWPKILHLD
